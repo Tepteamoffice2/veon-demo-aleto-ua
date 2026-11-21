@@ -5,6 +5,7 @@ import FutureLink from "./FutureLink.astro";
 import TelegramLink from "./TelegramLink.astro";
 import { donors, donorsDate, NOTE_SOON } from "../data/site";
 const stations = ["Аукціон у США", "Контейнер", "Прибуття в порт", "Розбір", "Відвантаження протягом місяця"];
+const base = import.meta.env.BASE_URL.replace(/\/?$/, "/");
 ---
 <Section id="sklad" class="sec sec--sklad" labelledby="sklad-title" rec="UX-R10">
   <div class="container">
@@ -35,7 +36,7 @@ const stations = ["Аукціон у США", "Контейнер", "Прибу�
       <ul class="donors" role="list">
         {donors.map((d) => (
           <li class="donor" id={`donor-${d.img}`}>
-            <img class="donor__img" src={`/img/${d.img}-800.webp`} srcset={`/img/${d.img}-480.webp 480w, /img/${d.img}-800.webp 800w`} sizes="(min-width: 60rem) 25vw, (min-width: 40rem) 50vw, 100vw" width="800" height="600" alt={d.alt} loading="lazy" decoding="async" />
+            <img class="donor__img" src={`${base}img/${d.img}-800.webp`} srcset={`${base}img/${d.img}-480.webp 480w, ${base}img/${d.img}-800.webp 800w`} sizes="(min-width: 60rem) 25vw, (min-width: 40rem) 50vw, 100vw" width="800" height="600" alt={d.alt} loading="lazy" decoding="async" />
             <p class="donor__model">{d.model}</p>
             <p class="donor__meta">{d.year}, {d.colour}{d.engine ? `, ${d.engine}` : ""}</p>
           </li>
