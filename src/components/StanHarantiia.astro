@@ -1,0 +1,64 @@
+---
+// Block 4, #stan-i-harantiia: warranty terms set large, donor condition beside (B-F006, B-F008, B-F010, B-F017).
+import Section from "./Section.astro";
+import FutureLink from "./FutureLink.astro";
+import TelegramLink from "./TelegramLink.astro";
+import { NOTE_SOON } from "../data/site";
+---
+<Section id="stan-i-harantiia" class="sec sec--stan" labelledby="stan-title" rec="UX-R05">
+  <div class="container">
+    <h2 id="stan-title" class="sec__title">Донори до 150&nbsp;000&nbsp;км, гарантія 14–30 днів</h2>
+    <div class="stan">
+      <dl class="terms">
+        <div class="terms__row">
+          <dt class="terms__value"><span class="num">14</span> днів</dt>
+          <dd class="terms__label">гарантія на всі деталі</dd>
+        </div>
+        <div class="terms__row">
+          <dt class="terms__value"><span class="num">30</span> днів</dt>
+          <dd class="terms__label">на агрегати і КПП</dd>
+        </div>
+        <div class="terms__row">
+          <dt class="terms__value">до <span class="num">60</span> днів</dt>
+          <dd class="terms__label">продовження гарантії за 10&nbsp;% від вартості замовлення</dd>
+        </div>
+      </dl>
+      <div class="donor-facts">
+        <h3 class="donor-facts__title">Звідки деталі</h3>
+        <dl class="donor-facts__list">
+          <div><dt>до 150&nbsp;000&nbsp;км</dt><dd>пробіг донорів</dd></div>
+          <div><dt>40–60 тис. миль</dt><dd>типовий пробіг</dd></div>
+          <div><dt>близько 80&nbsp;%</dt><dd>авто регулярно обслуговувались</dd></div>
+          <div><dt>розбираємо самі</dt><dd>ми не перекупники: купуємо авто на аукціонах США</dd></div>
+        </dl>
+      </div>
+    </div>
+    <div class="stan__foot">
+      <details class="acc" data-acc>
+        <summary class="acc__summary">Умови повернення</summary>
+        <div class="acc__body">
+          <p>Б/в деталь можна повернути протягом 14 днів за згодою продавця, якщо є неописаний дефект або сталася помилка. Потрібні фото чи відео. Можлива комісія 10&nbsp;%, мінімум 300&nbsp;грн.</p>
+          <p>Встановлені деталі не повертаються.</p>
+        </div>
+      </details>
+      <div class="stan__actions">
+        <TelegramLink variant="secondary" />
+        <FutureLink note={NOTE_SOON} class="stan__more">Гарантія і повернення</FutureLink>
+      </div>
+    </div>
+  </div>
+</Section>
+
+<script>
+  // Effect 5 (concept §8.7): «Умови повернення» opens with a 420 ms rise and closes in 280 ms.
+  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)");
+  document.querySelectorAll<HTMLDetailsElement>("[data-acc]").forEach((acc) => {
+    const summary = acc.querySelector("summary");
+    summary?.addEventListener("click", (e) => {
+      if (!acc.open || reduce.matches) return;
+      e.preventDefault();
+      acc.classList.add("is-closing");
+      window.setTimeout(() => { acc.open = false; acc.classList.remove("is-closing"); }, 280);
+    });
+  });
+</script>

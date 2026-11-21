@@ -1,0 +1,35 @@
+---
+// Block 8, #kontakty: back to the blue field; Telegram first, honest status of the phone lines (B-F018).
+import Section from "./Section.astro";
+import TelegramLink from "./TelegramLink.astro";
+import { phonesUa, phonesMd } from "../data/site";
+---
+<Section id="kontakty" class="contacts" labelledby="kontakty-title" rec="UX-R01">
+  <div class="container contacts__grid">
+    <div class="contacts__main">
+      <h2 id="kontakty-title" class="sec__title">Зв'язатися з Алето Авто</h2>
+      <p class="contacts__lead">Напишіть марку, модель і рік, VIN або номер деталі. Менеджер перевірить наявність і відповість у чаті.</p>
+      <TelegramLink variant="primary" class="contacts__tg" />
+      <p class="contacts__status">Вхідні дзвінки тимчасово недоступні — пишіть у Telegram.</p>
+    </div>
+    <div class="contacts__lines">
+      <div class="phones">
+        <h3 class="phones__title">Україна</h3>
+        <p class="phones__note">Вхідні дзвінки тимчасово недоступні</p>
+        <ul class="phones__list num" role="list">
+          {phonesUa.map((p) => <li>{p}</li>)}
+        </ul>
+      </div>
+      <div class="phones">
+        <h3 class="phones__title">Молдова і ПМР</h3>
+        <ul class="phones__list num" role="list">
+          {phonesMd.map((p) => <li><span class="phones__label">{p.label}</span> <a href={`tel:${p.tel}`}>{p.display}</a></li>)}
+        </ul>
+      </div>
+      <div class="phones">
+        <h3 class="phones__title">Прийом заявок</h3>
+        <p class="phones__list num">Пн–Сб 9:00–20:00<br />Нд 9:00–18:00</p>
+      </div>
+    </div>
+  </div>
+</Section>

@@ -1,0 +1,41 @@
+---
+// Block 3, #zamovlennia: «коли ви платите» (B-F013, B-F016; concept §8.1 row 3).
+import Section from "./Section.astro";
+---
+<Section id="zamovlennia" class="sec sec--well sec--pay" labelledby="pay-title" rec="UX-R05">
+  <div class="container pay">
+    <div class="pay__head">
+      <h2 id="pay-title" class="sec__title">Коли ви платите</h2>
+      <p class="pay__statement">Платите, коли оглянули деталь.</p>
+      <ol class="flow" role="list" aria-label="Як проходить замовлення">
+        <li class="flow__step">Запит у Telegram</li>
+        <li class="flow__step">менеджер підтверджує наявність</li>
+        <li class="flow__step">Нова Пошта або самовивіз</li>
+        <li class="flow__step">огляд і оплата</li>
+      </ol>
+    </div>
+    <table class="pay-table">
+      <caption class="visually-hidden">Коли і за що ви платите</caption>
+      <thead>
+        <tr><th scope="col">Що замовляєте</th><th scope="col">Коли платите</th><th scope="col">Умова</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th scope="row">Деталь зі складу</th>
+          <td data-label="Коли платите">При отриманні, після огляду</td>
+          <td data-label="Умова">Без передоплати, післяплатою з оглядом</td>
+        </tr>
+        <tr>
+          <th scope="row">Доставка габаритних і кузовних деталей</th>
+          <td data-label="Коли платите">Наперед, на картку</td>
+          <td data-label="Умова">Лише вартість доставки; саму деталь оплачуєте після огляду</td>
+        </tr>
+        <tr>
+          <th scope="row">Бронь деталі з авто в дорозі</th>
+          <td data-label="Коли платите">Повна передоплата</td>
+          <td data-label="Умова">Відвантаження протягом місяця після прибуття контейнера в порт</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</Section>

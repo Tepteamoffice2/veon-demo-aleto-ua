@@ -1,0 +1,23 @@
+---
+// Block 2, #marky: alphabetical index of the 36 brands instead of logo tiles (concept §3, §8.1 row 2).
+import Section from "./Section.astro";
+import FutureLink from "./FutureLink.astro";
+import TelegramLink from "./TelegramLink.astro";
+import { brands, NOTE_SOON } from "../data/site";
+---
+<Section id="marky" class="sec sec--marky" labelledby="marky-title" rec="UX-R08">
+  <div class="container">
+    <div class="marky__head">
+      <h2 id="marky-title" class="sec__title">Марки, які ми розбираємо</h2>
+      <div class="marky__aside">
+        <p class="marky__fact"><span class="num">3 292</span> авто розібрано з 2013 року. Напишіть марку, модель і рік, і менеджер перевірить наявність деталі.</p>
+        <TelegramLink variant="secondary" />
+      </div>
+    </div>
+    <ul class="brand-index" role="list">
+      {brands.map((b) => (
+        <li><FutureLink note={NOTE_SOON} class="brand-index__item">{b}</FutureLink></li>
+      ))}
+    </ul>
+  </div>
+</Section>

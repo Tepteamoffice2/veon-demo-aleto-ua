@@ -1,0 +1,67 @@
+---
+// Block 5, #sklad: «Авто в дорозі» route + the journal of recent donors with the client's photos (B-F015, B-F016, B-F021).
+import Section from "./Section.astro";
+import FutureLink from "./FutureLink.astro";
+import TelegramLink from "./TelegramLink.astro";
+import { donors, donorsDate, NOTE_SOON } from "../data/site";
+const stations = ["Аукціон у США", "Контейнер", "Прибуття в порт", "Розбір", "Відвантаження протягом місяця"];
+---
+<Section id="sklad" class="sec sec--sklad" labelledby="sklad-title" rec="UX-R10">
+  <div class="container">
+    <div class="sklad__head">
+      <h2 id="sklad-title" class="sec__title">Склад поповнюється щотижня</h2>
+      <p class="sec__lead">Авто купуємо на аукціонах США. Список тих, що вже їдуть на розбір, оновлюємо щотижня.</p>
+    </div>
+
+    <div class="road">
+      <h3 class="sub__title">Авто в дорозі</h3>
+      <ol class="route" role="list" data-route>
+        {stations.map((s, i) => <li class="route__stop" style={`--i:${i}`}><span class="route__dot" aria-hidden="true"></span><span class="route__name">{s}</span></li>)}
+      </ol>
+      <div class="road__terms">
+        <p>Деталь з авто, яке ще в дорозі, можна забронювати. Бронь лише за повною передоплатою, відвантаження протягом місяця після прибуття контейнера в порт. Якщо стан не відповідає фото, пропонуємо заміну, знижку або повернення грошей.</p>
+        <div class="road__actions">
+          <TelegramLink variant="secondary" label="Запитати про бронь" />
+          <FutureLink note={NOTE_SOON}>Список авто в дорозі</FutureLink>
+        </div>
+      </div>
+    </div>
+
+    <div class="recent">
+      <div class="recent__head">
+        <h3 class="sub__title">Нещодавно розібрали</h3>
+        <p class="recent__date"><time datetime={donorsDate.iso}>{donorsDate.label}</time></p>
+      </div>
+      <ul class="donors" role="list">
+        {donors.map((d) => (
+          <li class="donor" id={`donor-${d.img}`}>
+            <img class="donor__img" src={`/img/${d.img}-800.webp`} srcset={`/img/${d.img}-480.webp 480w, /img/${d.img}-800.webp 800w`} sizes="(min-width: 60rem) 25vw, (min-width: 40rem) 50vw, 100vw" width="800" height="600" alt={d.alt} loading="lazy" decoding="async" />
+            <p class="donor__model">{d.model}</p>
+            <p class="donor__meta">{d.year}, {d.colour}{d.engine ? `, ${d.engine}` : ""}</p>
+          </li>
+        ))}
+      </ul>
+      <FutureLink note={NOTE_SOON} class="recent__more">Усі новини складу</FutureLink>
+    </div>
+  </div>
+</Section>
+
+<script>
+  // Effect 3 (concept §8.7): the route line grows from the auction to shipment once, when it enters the screen.
+  const route = document.querySelector<HTMLElement>("[data-route]");
+  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (route) {
+    if (reduce || !("IntersectionObserver" in window)) {
+      route.classList.add("is-drawn");
+    } else {
+      route.classList.add("is-waiting");
+      const io = new IntersectionObserver((entries) => {
+        if (entries.some((e) => e.isIntersecting)) {
+          route.classList.add("is-drawn");
+          io.disconnect();
+        }
+      }, { threshold: 0.4 });
+      io.observe(route);
+    }
+  }
+</script>

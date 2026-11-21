@@ -1,0 +1,23 @@
+---
+// Footer: continuation of the blue contacts field, two lines (concept §5 «Футер»).
+import Logo from "./Logo.astro";
+import FutureLink from "./FutureLink.astro";
+import { footerPages, socials, NOTE_SOON } from "../data/site";
+---
+<footer class="site-footer">
+  <div class="container">
+    <div class="site-footer__row">
+      <Logo />
+      <ul class="site-footer__pages" role="list" aria-label="Розділи сайту">
+        {footerPages.map((p) => <li><FutureLink note={NOTE_SOON} class="future-link--up">{p}</FutureLink></li>)}
+      </ul>
+    </div>
+    <div class="site-footer__row site-footer__row--legal">
+      <ul class="site-footer__social" role="list" aria-label="Соцмережі">
+        {socials.map((s) => <li><a href={s.href} target="_blank" rel="noopener">{s.label}</a></li>)}
+      </ul>
+      <p>ТОВ «ТООЗЕВ», ЄДРПОУ 43783093</p>
+      <p>© 2013–2026 Алето Авто</p>
+    </div>
+  </div>
+</footer>

@@ -1,0 +1,48 @@
+---
+import Base from "../layouts/Base.astro";
+import Header from "../components/Header.astro";
+import Pidbir from "../components/Pidbir.astro";
+import Marky from "../components/Marky.astro";
+import Zamovlennia from "../components/Zamovlennia.astro";
+import StanHarantiia from "../components/StanHarantiia.astro";
+import Sklad from "../components/Sklad.astro";
+import Dostavka from "../components/Dostavka.astro";
+import InshiNapriamy from "../components/InshiNapriamy.astro";
+import Kontakty from "../components/Kontakty.astro";
+import Footer from "../components/Footer.astro";
+import BottomBar from "../components/BottomBar.astro";
+import { socials } from "../data/site";
+
+const title = "Б/в оригінальні запчастини з авто США — авторозбірка Алето Авто";
+const description = "Б/в оригінальні запчастини з авто США з власної розбірки. 36 марок, оплата при отриманні після огляду, доставка Новою Поштою по Україні та в Молдову. Запит — у Telegram.";
+
+// concept §8.6: AutoPartsStore without ratings or reviews; url is omitted until the demo has its own address.
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "AutoPartsStore",
+  name: "Алето Авто",
+  legalName: "ТОВ «ТООЗЕВ»",
+  description,
+  address: [
+    { "@type": "PostalAddress", addressLocality: "Одеса", streetAddress: "вул. Картамишівська, 9", addressCountry: "UA" },
+    { "@type": "PostalAddress", addressLocality: "Київ", streetAddress: "Квітневий провулок, 1, ГК «Барвінок», бокс №1337", addressCountry: "UA" },
+  ],
+  openingHours: ["Mo-Fr 10:00-17:00", "Sa 10:00-15:00"],
+  sameAs: socials.map((s) => s.href),
+  foundingDate: "2013",
+};
+---
+<Base lang="uk" title={title} description={description}>
+  <script slot="head" type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+  <Header slot="header" />
+  <Pidbir />
+  <Marky />
+  <Zamovlennia />
+  <StanHarantiia />
+  <Sklad />
+  <Dostavka />
+  <InshiNapriamy />
+  <Kontakty />
+  <Footer slot="footer" />
+  <BottomBar slot="footer" />
+</Base>

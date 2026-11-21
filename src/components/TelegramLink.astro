@@ -1,0 +1,11 @@
+---
+// The one working order channel (B-F018, company.contacts.messengers). Same label everywhere on the page.
+import Icon from "./Icon.astro";
+import { TELEGRAM } from "../data/site";
+interface Props { variant?: "primary" | "secondary" | "header" | "text"; label?: string; rec?: string; class?: string; copy?: boolean; }
+const { variant = "secondary", label = "Надіслати запит у Telegram", rec, class: cls, copy = false } = Astro.props;
+---
+<a class:list={["btn", `btn--${variant}`, cls]} href={TELEGRAM} target="_blank" rel="noopener" data-rec={rec} data-tg-copy={copy ? "" : undefined}>
+  <Icon name="telegram" class="btn__icon" />
+  <span>{label}</span>
+</a>

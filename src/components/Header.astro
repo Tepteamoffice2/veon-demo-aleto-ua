@@ -1,0 +1,59 @@
+---
+import Logo from "./Logo.astro";
+import Icon from "./Icon.astro";
+import FutureLink from "./FutureLink.astro";
+import TelegramLink from "./TelegramLink.astro";
+import { nav, TELEGRAM, NOTE_SOON } from "../data/site";
+---
+<header class="site-header" data-header data-rec="UX-R01,UX-R07">
+  <div class="container site-header__bar">
+    <Logo class="site-header__logo" />
+    <nav class="site-nav" aria-label="Розділи сторінки" data-rec="UX-R06">
+      <ul class="site-nav__list" role="list">
+        {nav.map((item) => <li><a class="site-nav__link" href={item.href}>{item.label}</a></li>)}
+      </ul>
+    </nav>
+    <div class="site-header__end">
+      <TelegramLink variant="header" label="Telegram" class="site-header__tg" />
+      <div class="lang" role="group" aria-label="Мова сайту">
+        <span class="lang__current" aria-current="true">UA</span>
+        <FutureLink note={NOTE_SOON} class="lang__other">RU</FutureLink>
+      </div>
+      <details class="mnav" data-mnav>
+        <summary class="mnav__toggle" aria-label="Меню">
+          <Icon name="menu" size={24} class="mnav__open" />
+          <Icon name="close" size={24} class="mnav__close" />
+        </summary>
+        <div class="mnav__panel">
+          <ul class="mnav__list" role="list">
+            <li><a class="mnav__link mnav__link--tg" href={TELEGRAM} target="_blank" rel="noopener"><Icon name="telegram" />Написати в Telegram</a></li>
+            {nav.map((item) => <li><a class="mnav__link" href={item.href}>{item.label}</a></li>)}
+          </ul>
+        </div>
+      </details>
+    </div>
+  </div>
+</header>
+
+<script>
+  // Header turns from the blue field to paper once the first screen is passed (desktop sticky bar).
+  const header = document.querySelector<HTMLElement>("[data-header]");
+  const hero = document.getElementById("pidbir");
+  if (header && hero && "IntersectionObserver" in window) {
+    const io = new IntersectionObserver(([entry]) => {
+      header.classList.toggle("is-paper", !entry.isIntersecting);
+    }, { rootMargin: "-72px 0px 0px 0px", threshold: 0 });
+    io.observe(hero);
+  }
+  // Mobile menu: close after an anchor is chosen, and on Escape.
+  const menu = document.querySelector<HTMLDetailsElement>("[data-mnav]");
+  menu?.addEventListener("click", (e) => {
+    if ((e.target as HTMLElement).closest(".mnav__link")) menu.open = false;
+  });
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && menu?.open) {
+      menu.open = false;
+      menu.querySelector("summary")?.focus();
+    }
+  });
+</script>

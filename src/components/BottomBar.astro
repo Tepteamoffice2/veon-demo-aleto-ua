@@ -1,0 +1,9 @@
+---
+// Phones only: the single floating element (UX-R07), «Підбір» and «Telegram».
+import Icon from "./Icon.astro";
+import { TELEGRAM } from "../data/site";
+---
+<nav class="bar" aria-label="Швидкі дії" data-rec="UX-R07">
+  <a class="bar__item" href="#pidbir"><Icon name="search" />Підбір</a>
+  <a class="bar__item bar__item--tg" href={TELEGRAM} target="_blank" rel="noopener"><Icon name="telegram" />Telegram</a>
+</nav>

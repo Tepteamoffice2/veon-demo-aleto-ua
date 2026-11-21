@@ -1,0 +1,117 @@
+---
+// Block 1, #pidbir: the first screen (concept §5 «Первый экран», §8.1 row 1).
+import Section from "./Section.astro";
+import FutureLink from "./FutureLink.astro";
+import TelegramLink from "./TelegramLink.astro";
+import { brands, donors, donorsDate, NOTE_SEARCH } from "../data/site";
+const cells = Array.from({ length: 17 }, (_, i) => i);
+---
+<Section id="pidbir" class="hero" labelledby="hero-title" rec="UX-R02,UX-R03,UX-R05">
+  <div class="container hero__grid">
+    <div class="hero__main">
+      <h1 id="hero-title" class="hero__title rise-in" style="--i:0">Б/в оригінальні запчастини з авто <span class="nowrap">США —</span> розбираємо самі</h1>
+      <p class="hero__lead rise-in" style="--i:1">З 2013 року купуємо авто на аукціонах США і самі розбираємо їх на запчастини.</p>
+
+      <div class="pick rise-in" style="--i:2" role="group" aria-labelledby="pick-title">
+        <h2 id="pick-title" class="visually-hidden">Підбір деталі</h2>
+        <div class="vin" data-vin>
+          <label class="field-label field-label--on-primary" for="vin">VIN (17 символів) або номер деталі OEM</label>
+          <div class="vin__field">
+            <input id="vin" class="vin__input" name="vin" type="text" inputmode="text" autocomplete="off" autocapitalize="characters" spellcheck="false" maxlength="17" aria-describedby="vin-count vin-hint" data-vin-input />
+            <span class="vin__cells" aria-hidden="true">
+              {cells.map((i) => <span class="vin__cell" data-cell={i}></span>)}
+            </span>
+          </div>
+          <p class="vin__meta">
+            <span id="vin-count" class="vin__count" data-vin-count>0/17</span>
+            <span id="vin-hint" class="vin__hint">Номер з техпаспорта або з самої деталі</span>
+          </p>
+        </div>
+
+        <div class="pick__cta">
+          <TelegramLink variant="primary" copy rec="UX-R01,UX-R02" class="pick__tg" />
+          <p class="pick__pay" data-rec="UX-R05">Оплата при отриманні, після огляду</p>
+          <p class="pick__copied" role="status" data-tg-status></p>
+        </div>
+
+        <div class="pick__more" data-rec="UX-R03">
+          <div class="pick__field">
+            <label class="field-label field-label--on-primary" for="marka">Марка</label>
+            <select id="marka" name="marka" class="select" data-pick-marka>
+              <option value="">Оберіть марку</option>
+              {brands.map((b) => <option value={b}>{b}</option>)}
+            </select>
+          </div>
+          <div class="pick__field">
+            <label class="field-label field-label--on-primary" for="model">Модель і рік</label>
+            <input id="model" name="model" class="input" type="text" autocomplete="off" placeholder="Наприклад, Sorento 2019" data-pick-model />
+          </div>
+          <FutureLink note={NOTE_SEARCH} class="btn btn--ghost pick__find">Знайти</FutureLink>
+        </div>
+
+        <p class="hero__status" data-rec="UX-R01">Вхідні дзвінки тимчасово недоступні — пишіть у Telegram.</p>
+      </div>
+    </div>
+
+    <figure class="journal rise-in" style="--i:3">
+      <figcaption class="journal__cap"><span class="journal__title">Нещодавно розібрали</span> <span class="journal__date"><time datetime={donorsDate.iso}>{donorsDate.label}</time></span></figcaption>
+      <ol class="journal__list" role="list">
+        {donors.map((d) => (
+          <li class="journal__item">
+            <a class="journal__link" href={`#donor-${d.img}`}>
+              <span class="journal__model">{d.model}</span>
+              <span class="journal__meta">{d.year}, {d.colour}{d.engine ? `, ${d.engine}` : ""}</span>
+            </a>
+          </li>
+        ))}
+      </ol>
+      <a class="journal__more" href="#sklad">Фото донорів на складі</a>
+    </figure>
+  </div>
+</Section>
+
+<script>
+  // Effect 2 (concept §8.7): the VIN row fills cell by cell; at 17 the row edge turns to the signal colour.
+  // Telegram CTA: if something was typed, the request text is copied so it can be pasted into the bot chat.
+  const root = document.querySelector<HTMLElement>("[data-vin]");
+  const input = document.querySelector<HTMLInputElement>("[data-vin-input]");
+  const count = document.querySelector<HTMLElement>("[data-vin-count]");
+  const cells = Array.from(document.querySelectorAll<HTMLElement>("[data-cell]"));
+  const status = document.querySelector<HTMLElement>("[data-tg-status]");
+
+  const render = () => {
+    if (!input || !root) return;
+    const clean = input.value.toUpperCase().replace(/\s+/g, "");
+    if (clean !== input.value) {
+      const pos = input.selectionStart ?? clean.length;
+      input.value = clean;
+      input.setSelectionRange(Math.min(pos, clean.length), Math.min(pos, clean.length));
+    }
+    const caret = document.activeElement === input ? (input.selectionStart ?? clean.length) : -1;
+    cells.forEach((cell, i) => {
+      cell.textContent = clean[i] ?? "";
+      cell.classList.toggle("is-filled", i < clean.length);
+      cell.classList.toggle("is-caret", i === Math.min(caret, 16) && caret >= 0);
+    });
+    if (count) count.textContent = `${clean.length}/17`;
+    root.classList.toggle("is-full", clean.length === 17);
+  };
+  if (input) {
+    ["input", "focus", "blur", "keyup", "click", "select"].forEach((ev) => input.addEventListener(ev, render));
+    document.addEventListener("selectionchange", () => { if (document.activeElement === input) render(); });
+    render();
+  }
+
+  document.querySelectorAll<HTMLAnchorElement>("[data-tg-copy]").forEach((link) => {
+    link.addEventListener("click", () => {
+      const vin = input?.value.trim() ?? "";
+      const marka = document.querySelector<HTMLSelectElement>("[data-pick-marka]")?.value ?? "";
+      const model = document.querySelector<HTMLInputElement>("[data-pick-model]")?.value.trim() ?? "";
+      const parts = [vin && `VIN або номер деталі: ${vin}`, marka && `Марка: ${marka}`, model && `Модель: ${model}`].filter(Boolean);
+      if (!parts.length || !navigator.clipboard) return;
+      navigator.clipboard.writeText(parts.join("\n")).then(() => {
+        if (status) status.textContent = "Запит скопійовано — вставте його в чат бота.";
+      }).catch(() => { /* clipboard refused: the bot simply opens */ });
+    });
+  });
+</script>

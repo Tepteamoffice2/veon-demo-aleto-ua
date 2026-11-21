@@ -1,0 +1,36 @@
+---
+// Block 7, #inshi-napriamy: new aftermarket parts (B-F011) and cars from the USA (B-F023), 7/5.
+import Section from "./Section.astro";
+import FutureLink from "./FutureLink.astro";
+import TelegramLink from "./TelegramLink.astro";
+import { NOTE_SOON, usaLine } from "../data/site";
+---
+<Section id="inshi-napriamy" class="sec sec--inshi" labelledby="inshi-title">
+  <div class="container">
+    <h2 id="inshi-title" class="sec__title">Нові аналоги і авто з США під ключ</h2>
+    <div class="dirs">
+      <article class="dir dir--wide">
+        <h3 class="dir__title">Нові аналоги з Китаю і Тайваню</h3>
+        <p class="dir__text">Нові неоригінальні деталі для авто з США, коли оригінал не потрібен.</p>
+        <dl class="dir__facts">
+          <div><dt>до 2 місяців</dt><dd>гарантія</dd></div>
+          <div><dt>14 днів</dt><dd>безкоштовне повернення</dd></div>
+        </dl>
+        <div class="dir__actions">
+          <TelegramLink variant="secondary" label="Запитати аналог" />
+          <FutureLink note={NOTE_SOON}>Про нові аналоги</FutureLink>
+        </div>
+      </article>
+      <article class="dir">
+        <h3 class="dir__title">Авто з США під ключ</h3>
+        <p class="dir__text">Підбір і купівля на аукціонах Copart, IAAI і Manheim, перевірка Carfax, доставка в Україну, Молдову і ПМР.</p>
+        <p class="dir__phone"><span class="dir__phone-label">Телефон і Viber</span><span class="dir__phone-num num">{usaLine.display}</span></p>
+        <div class="dir__actions">
+          <a class="btn btn--secondary" href={usaLine.viber}>Написати у Viber</a>
+          <a class="btn btn--text" href={`tel:${usaLine.tel}`}>Подзвонити</a>
+          <FutureLink note={NOTE_SOON} class="future-link--end">Про пригін авто</FutureLink>
+        </div>
+      </article>
+    </div>
+  </div>
+</Section>

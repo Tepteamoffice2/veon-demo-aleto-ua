@@ -1,0 +1,27 @@
+---
+// Block 6, #dostavka: three pickup cities set large (company.geography, company.contacts.hours, B-F012).
+import Section from "./Section.astro";
+import Icon from "./Icon.astro";
+import { pickups } from "../data/site";
+---
+<Section id="dostavka" class="sec sec--well sec--dostavka" labelledby="dostavka-title">
+  <div class="container">
+    <div class="dostavka__head">
+      <h2 id="dostavka-title" class="sec__title">Одеса, Київ, Тирасполь — або Нова Пошта</h2>
+      <p class="sec__lead">Новою Поштою по всій Україні та в Молдову. Вартість залежить від кількості деталей.</p>
+    </div>
+    <ul class="cities" role="list">
+      {pickups.map((p) => (
+        <li class="city">
+          <h3 class="city__name">{p.city}</h3>
+          <p class="city__role">{p.role}</p>
+          {p.address && <p class="city__addr">{p.address}</p>}
+          {p.hours.length > 0 && <p class="city__hours num">{p.hours.map((h, i) => <>{i > 0 && <br />}{h}</>)}</p>}
+          {p.map
+            ? <a class="city__map" href={p.map} target="_blank" rel="noopener"><Icon name="pin" />Відкрити на карті</a>
+            : <p class="city__note">Час і місце видачі узгоджуємо в Telegram.</p>}
+        </li>
+      ))}
+    </ul>
+  </div>
+</Section>

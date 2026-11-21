@@ -1,0 +1,8 @@
+---
+// The client's white SVG logo (B-F027), painted with currentColor through a mask so it works on the blue field and on paper.
+interface Props { class?: string; href?: string; }
+const { class: cls, href = "#pidbir" } = Astro.props;
+---
+<a class:list={["logo", cls]} href={href} aria-label="Алето Авто, на початок сторінки">
+  <span class="logo__mark" aria-hidden="true"></span>
+</a>

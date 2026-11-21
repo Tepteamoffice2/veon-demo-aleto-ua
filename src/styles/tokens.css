@@ -1,0 +1,99 @@
+/* Hallmark · shape: custom data ledger (buy, pick-first) · genre: editorial · theme: custom · job: buy · idea: "Склад, який видно наскрізь: VIN вашої машини, донор з моделлю, роком і датою розбору, дні гарантії, хто і коли платить" · vibe: "точні дані складу, фірмовий синій, чесно"
+ * paper: #F3F5F8 · accent: #F29A2E · display: Sofia Sans Condensed · body: Onest · hero: синє поле 7/5, зліва H1, рядок VIN із 17 клітинок, марка і модель, Telegram-кнопка і «оплата після огляду», справа журнал 4 реальних донорів · nav: sticky bar on the blue field, 5 anchors, Telegram right · footer: continuation of the blue contacts field, two lines (links, socials and legal) · imagery: client photos · signature: рядок VIN із 17 клітинок, що заповнюється під час введення, поруч журнал «розібрали 13 листопада»
+ * axes: cool-paper/condensed-grotesk/orange-signal · posture: committed · contrast: pass · fold: pass · v2.0.0 */
+/* Hallmark · pre-emit critique: P4 H4 E4 S4 R4 V4 · weakest: imagery, the hero has no photo by concept (journal set in type instead); donor photos carry the sklad section */
+/* Hallmark · waive 39b · input.vin__input is 68px · it is the frame of the 17-cell VIN row (signature, concept §5), not a button; cells need display-size characters */
+/* Hallmark · answer 28a · donor photos sit in #sklad, far below the fold; the LCP is the H1 text */
+/* Hallmark · answer F4 · two filled recipes by concept §8.2: orange is the one primary (Telegram, only on blue or ink); blue fill is the secondary on paper because an orange edge on paper is 2.0:1 */
+/* Client design tokens from design/concept.md §8.2–8.4 and §8.11 (veon-concept: colors, fonts). */
+
+@font-face { font-family: "Sofia Sans Condensed"; font-style: normal; font-weight: 800; font-display: swap; src: url("/fonts/sofia-sans-condensed-cyrillic-800-normal.woff2") format("woff2"); unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116; }
+@font-face { font-family: "Sofia Sans Condensed"; font-style: normal; font-weight: 800; font-display: swap; src: url("/fonts/sofia-sans-condensed-latin-800-normal.woff2") format("woff2"); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+@font-face { font-family: "Onest"; font-style: normal; font-weight: 400; font-display: swap; src: url("/fonts/onest-cyrillic-400-normal.woff2") format("woff2"); unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116; }
+@font-face { font-family: "Onest"; font-style: normal; font-weight: 400; font-display: swap; src: url("/fonts/onest-latin-400-normal.woff2") format("woff2"); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+@font-face { font-family: "Onest"; font-style: normal; font-weight: 600; font-display: swap; src: url("/fonts/onest-cyrillic-600-normal.woff2") format("woff2"); unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116; }
+@font-face { font-family: "Onest"; font-style: normal; font-weight: 600; font-display: swap; src: url("/fonts/onest-latin-600-normal.woff2") format("woff2"); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+/* Metric-adjusted fallbacks so the swap does not move the layout much */
+@font-face { font-family: "Aleto Display Fallback"; src: local("Arial Narrow"), local("ArialNarrow"), local("Arial"); size-adjust: 92%; ascent-override: 100%; descent-override: 26%; }
+@font-face { font-family: "Aleto Body Fallback"; src: local("Arial"), local("Helvetica"); size-adjust: 102%; ascent-override: 94%; descent-override: 24%; }
+
+:root {
+  /* Colour roles (concept §8.2) */
+  --color-bg: #F3F5F8;            /* paper */
+  --color-surface-2: #E6EBF2;     /* paper-2, wells without borders */
+  --color-text: #0A1A2F;          /* ink */
+  --color-text-muted: #46566B;
+  --color-primary: #0253A4;       /* brand field, links and secondary buttons on paper */
+  --color-on-primary: #F4F7FB;
+  --color-on-primary-muted: #B8D3EE;
+  --color-accent: #F29A2E;        /* signal: the primary action on blue or ink only */
+  --color-accent-ink: #0A1A2F;
+  --color-graphic: #3EB4F0;       /* graphics on blue or ink only, never text */
+  --color-rule: #C9D3DF;
+  /* Derived from the roles above (no new hues) */
+  --color-rule-on-primary: color-mix(in oklab, var(--color-on-primary) 28%, var(--color-primary));
+  --color-primary-hover: color-mix(in oklab, var(--color-primary) 82%, var(--color-text));
+  --color-accent-hover: color-mix(in oklab, var(--color-accent) 84%, var(--color-on-primary));
+  --color-cell: color-mix(in oklab, var(--color-on-primary) 10%, var(--color-primary));
+  --color-cell-filled: color-mix(in oklab, var(--color-on-primary) 22%, var(--color-primary));
+  --color-focus-on-dark: var(--color-accent);
+  --color-focus-on-light: var(--color-primary);
+
+  /* Type (concept §8.3): 72/52/32/20/17/14 desktop, 40/32/24/18/16/14 mobile */
+  --font-display: "Sofia Sans Condensed", "Aleto Display Fallback", system-ui, sans-serif;
+  --font-body: "Onest", "Aleto Body Fallback", system-ui, sans-serif;
+  --text-display: clamp(2.5rem, 1.6rem + 3.6vw, 4.5rem);
+  --text-section: clamp(2rem, 1.53rem + 1.92vw, 3.25rem);
+  --text-subject: clamp(1.5rem, 1.31rem + 0.76vw, 2rem);
+  --text-lead: clamp(1.125rem, 1.08rem + 0.19vw, 1.25rem);
+  --text-md: clamp(1rem, 0.976rem + 0.095vw, 1.0625rem);
+  --text-sm: 0.875rem;
+  --weight-display: 800;
+  --weight-body: 400;
+  --weight-strong: 600;
+
+  /* Space (4/8 scale, concept §8.4) */
+  --space-2xs: 4px;
+  --space-xs: 8px;
+  --space-sm: 12px;
+  --space-md: 16px;
+  --space-lg: 24px;
+  --space-xl: 40px;
+  --space-2xl: 64px;
+  --space-3xl: 96px;
+  --space-section-m: 120px;
+  --space-4xl: 144px;
+
+  /* Grid */
+  --container: 1360px;
+  --gutter: 20px;
+  --gap-columns: 16px;
+
+  /* Shape */
+  --radius: 6px;          /* buttons, cards */
+  --radius-input: 4px;    /* VIN cells, fields */
+  --control-h: 56px;
+  --header-h: 72px;
+  --bar-h: 64px;
+  --z-sticky: 200;
+  --z-nav: 300;
+  --z-tooltip: 600;
+
+  /* Motion (concept §8.7, §8.11) */
+  --ease-out: cubic-bezier(.2, .7, .2, 1);
+  --ease-in: cubic-bezier(.5, 0, .75, 0);
+  --ease-in-out: cubic-bezier(.65, 0, .35, 1);
+  --dur-micro: 120ms;
+  --dur-short: 220ms;
+  --dur-long: 420ms;
+  --dur-route: 700ms;
+  --dur: var(--dur-long);
+  --space: var(--gutter);
+}
+
+@media (min-width: 40rem) {
+  :root { --gutter: 24px; }
+}
+@media (min-width: 60rem) {
+  :root { --gutter: 40px; --gap-columns: 24px; --control-h: 48px; }
+}
